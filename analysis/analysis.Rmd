@@ -1,0 +1,41 @@
+---
+title: "Getting Started with knitr"
+author: "Shaurita D. Hutchins"
+date: "2023-12-15"
+output: pdf_document
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Gapminder Data Analysis
+
+I'm learning about R for reproducible data analysis.
+
+
+```{r load-data}
+gapminder <- read.csv("../data/gapminder_data.csv")
+summary(gapminder)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r life-expectancy, echo=FALSE}
+gapminder %>%
+  # extract first of country name into column
+  mutate(startsWith = substr(country, 1, 1)) %>%
+  # only keep countries that start with A & Z
+  filter(startsWith %in% c("A", "Z")) %>%
+  # plot life expectancy into facets
+  ggplot(aes(x = year,
+             y = lifeExp,
+             colour = continent)) +
+  geom_line() +
+  facet_wrap(vars(country)) + 
+  theme_minimal()
+```
+
